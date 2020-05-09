@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MoviesStore } from './movies.store';
-import { ID, transaction, withTransaction, arrayRemove } from '@datorama/akita';
+import { ID, transaction, withTransaction, arrayRemove, logAction, action } from '@datorama/akita';
 import { of, timer } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import { movies } from '../normalized';
@@ -34,11 +34,13 @@ export class MoviesService {
   }
 
   markAsOpen(id: ID) {
+    logAction('custom mark as open', undefined, {id, otherParam: 'param'});
     this.moviesStore.ui.update(id, entity => ({ isOpen: !entity.isOpen }));
   }
 
   @transaction()
   deleteActor(id: ID) {
+    logAction('custom remove actors', id,{ param1: 'first', param2: 2});
     this.actorsStore.remove(id);
     this.moviesStore.update(null, entity => ({ actors: arrayRemove(entity.actors, id) }));
   }

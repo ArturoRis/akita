@@ -86,7 +86,7 @@ export function akitaDevtools(ngZoneOrOptions?: NgZoneLike | Partial<DevtoolsOpt
   subs.push(
     $$updateStore.subscribe(storeName => {
       if (isAllowed(storeName) === false) return;
-      const { type, entityIds, skip } = currentAction;
+      const { type, entityIds, skip, payload } = currentAction;
 
       if (skip) {
         setSkipAction(false);
@@ -125,11 +125,11 @@ export function akitaDevtools(ngZoneOrOptions?: NgZoneLike | Partial<DevtoolsOpt
             return acc;
           }, {});
 
-        devTools.send({ type: msg }, sortedAppState);
+        devTools.send({ type: msg, payload }, sortedAppState);
         return;
       }
 
-      devTools.send({ type: msg }, appState);
+      devTools.send({ type: msg, payload }, appState);
     })
   );
 

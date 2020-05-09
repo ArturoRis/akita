@@ -29,11 +29,17 @@ export function setSkipAction(skip = true) {
   currentAction.skip = skip;
 }
 
-export function action(action: string, entityIds?) {
+export function action(action: string, entityIds?, argsNames?: string[]) {
   return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     descriptor.value = function(...args) {
-      logAction(action, entityIds);
+      if (argsNames) {
+        const payload = {};
+        args.forEach((arg, i) => payload[argsNames[i]] = arg);
+        logAction(action, entityIds, payload);
+      } else {
+        logAction(action, entityIds);
+      }
       return originalMethod.apply(this, args);
     };
 

@@ -29,6 +29,7 @@ export class MoviesService {
     return this.moviesQuery.getHasCache() ? of() : request$;
   }
 
+  @action('custom update', undefined, ['id', 'name'])
   updateActorName(id: ID, name: string) {
     this.actorsStore.update(id, { name });
   }

@@ -33,7 +33,7 @@ export function action(action: string, entityIds?) {
   return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     descriptor.value = function(...args) {
-      logAction(action, entityIds);
+      logAction(action, entityIds, args);
       return originalMethod.apply(this, args);
     };
 

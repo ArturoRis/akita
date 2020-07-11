@@ -1,3 +1,4 @@
+import { action } from '../lib/actions';
 import { EntityStore } from '../lib/entityStore';
 import { ActiveState, EntityState, ID } from '../lib/types';
 import { StoreConfig } from '../lib/storeConfig';
@@ -31,6 +32,16 @@ export const initialState: State = {
 export class TodosStore extends EntityStore<State, Todo> {
   constructor(options?) {
     super(initialState, options);
+  }
+
+  @action('updateTitleWithCustomAction')
+  updateTitleWithCustomAction(title: string) {
+    this.update(1, { title });
+  }
+
+  @action('updateTitleWithCustomActionPayload', { payload: { title: 'title @action' } })
+  updateTitleWithCustomActionPayload(title: string) {
+    this.update(1, { title });
   }
 }
 
